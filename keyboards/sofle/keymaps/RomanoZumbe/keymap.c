@@ -134,9 +134,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ┌─────────┬──────────────────┬───────────────────┬───────────┬────────────────┬──────────────┐                                   ┌───────────────┬──────────────┬───────────┬───────────┬─────────┬──────────┐
 //    │   esc   │        1         │         2         │     3     │       4        │      5       │                                   │       6       │      7       │     8     │     9     │    0    │ SS_CRYPT │
 //    ├─────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┤                                   ├───────────────┼──────────────┼───────────┼───────────┼─────────┼──────────┤
-//    │   esc   │    LGUI_T(q)     │         w         │     e     │       r        │      t       │                                   │     DE_Y      │      u       │     i     │ ALGR_T(o) │    p    │   lgui   │
+//    │   esc   │        q         │         w         │     e     │       r        │      t       │                                   │     DE_Y      │      u       │     i     │ ALGR_T(o) │    p    │   lgui   │
 //    ├─────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┤                                   ├───────────────┼──────────────┼───────────┼───────────┼─────────┼──────────┤
-//    │  lgui   │        a         │         s         │ LCTL_T(d) │   LSFT_T(f)    │  LALT_T(g)   │                                   │       h       │  LSFT_T(j)   │ LCTL_T(k) │ LALT_T(l) │ DE_QUOT │   lalt   │
+//    │  lgui   │        a         │         s         │ LCTL_T(d) │   LSFT_T(f)    │  LALT_T(g)   │                                   │       h       │  LSFT_T(j)   │ LCTL_T(k) │     l     │ DE_QUOT │   lalt   │
 //    ├─────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┐   ┌──────────────┼───────────────┼──────────────┼───────────┼───────────┼─────────┼──────────┤
 //    │ SS_CIRC │ LT(Button, DE_Z) │         x         │     c     │       v        │      b       │      mute      │   │      no      │       n       │      m       │  DE_COMM  │  DE_DOT   │ DE_SLSH │    $     │
 //    └─────────┴──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┤   ├──────────────┼───────────────┼──────────────┼───────────┼───────────┼─────────┴──────────┘
@@ -144,8 +144,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //                                 └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────────────┴───────────────┴──────────────┴───────────┴───────────┘                     
 [Qwerty] = LAYOUT(
   KC_ESC  , KC_1             , KC_2              , KC_3         , KC_4              , KC_5            ,                                           KC_6             , KC_7            , KC_8         , KC_9         , KC_0    , SS_CRYPT,
-  KC_ESC  , LGUI_T(KC_Q)     , KC_W              , KC_E         , KC_R              , KC_T            ,                                           DE_Y             , KC_U            , KC_I         , ALGR_T(KC_O) , KC_P    , KC_LGUI ,
-  KC_LGUI , KC_A             , KC_S              , LCTL_T(KC_D) , LSFT_T(KC_F)      , LALT_T(KC_G)    ,                                           KC_H             , LSFT_T(KC_J)    , LCTL_T(KC_K) , LALT_T(KC_L) , DE_QUOT , KC_LALT ,
+  KC_ESC  , KC_Q             , KC_W              , KC_E         , KC_R              , KC_T            ,                                           DE_Y             , KC_U            , KC_I         , ALGR_T(KC_O) , KC_P    , KC_LGUI ,
+  KC_LGUI , KC_A             , KC_S              , LCTL_T(KC_D) , LSFT_T(KC_F)      , LALT_T(KC_G)    ,                                           KC_H             , LSFT_T(KC_J)    , LCTL_T(KC_K) , KC_L         , DE_QUOT , KC_LALT ,
   SS_CIRC , LT(Button, DE_Z) , KC_X              , KC_C         , KC_V              , KC_B            , KC_MUTE           ,     XXXXXXX         , KC_N             , KC_M            , DE_COMM      , DE_DOT       , DE_SLSH , KC_DLR  ,
                                TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     LT(Sym, KC_SPC) , LT(Num, KC_BSPC) , LT(Fun, KC_DEL) , KC_RALT      , KC_RGUI                          
 ),
