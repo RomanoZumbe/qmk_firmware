@@ -5,7 +5,7 @@ see https://docs.qmk.fm/#/feature_split_keyboard?id=setting-handedness
 for more options.
 */
 
-#define UNICODE_SELECTED_MODES UNICODE_MODE_WINCOMPOSE
+#define UNICODE_SELECTED_MODES UNICODE_MODE_LINUX
 #define MAIN_BOARD
 #define MASTER_LEFT
 #define OLED_TIMEOUT 10000
