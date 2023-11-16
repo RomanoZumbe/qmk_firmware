@@ -140,14 +140,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├────────────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┐   ┌──────────────┼───────────────┼──────────────┼───────────┼───────────┼─────────┼──────────┤
 //    │    SS_CIRC     │ LT(Button, DE_Z) │         x         │     c     │       v        │      b       │      mute      │   │      no      │       n       │      m       │  DE_COMM  │  DE_DOT   │ DE_SLSH │    $     │
 //    └────────────────┴──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┤   ├──────────────┼───────────────┼──────────────┼───────────┼───────────┼─────────┴──────────┘
-//                                        │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ LT(Sym, spc) │ LT(Num, bspc) │ LT(Fun, del) │   ralt    │   rgui    │
-//                                        └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────────────┴───────────────┴──────────────┴───────────┴───────────┘
+//                                        │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ LT(Sym, spc) │ LT(Num, bspc) │ LT(Fun, del) │   ralt    │   rgui    │                     
+//                                        └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────────────┴───────────────┴──────────────┴───────────┴───────────┘                     
 [Qwerty] = LAYOUT(
   KC_ESC            , KC_1             , KC_2              , KC_3         , KC_4              , KC_5            ,                                           KC_6             , KC_7            , KC_8         , KC_9         , KC_0    , SS_CRYPT,
   LT(Emoji, KC_ESC) , KC_Q             , KC_W              , KC_E         , KC_R              , KC_T            ,                                           DE_Y             , KC_U            , KC_I         , ALGR_T(KC_O) , KC_P    , KC_LGUI ,
   KC_LGUI           , KC_A             , KC_S              , LCTL_T(KC_D) , LSFT_T(KC_F)      , LALT_T(KC_G)    ,                                           KC_H             , LSFT_T(KC_J)    , LCTL_T(KC_K) , KC_L         , DE_QUOT , KC_LALT ,
   SS_CIRC           , LT(Button, DE_Z) , KC_X              , KC_C         , KC_V              , KC_B            , KC_MUTE           ,     XXXXXXX         , KC_N             , KC_M            , DE_COMM      , DE_DOT       , DE_SLSH , KC_DLR  ,
-                                         TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     LT(Sym, KC_SPC) , LT(Num, KC_BSPC) , LT(Fun, KC_DEL) , KC_RALT      , KC_RGUI
+                                         TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     LT(Sym, KC_SPC) , LT(Num, KC_BSPC) , LT(Fun, KC_DEL) , KC_RALT      , KC_RGUI                          
 ),
 
 //    ┌─────────┬──────────────────┬───────────────────┬───────────┬────────────────┬──────────────┐                          ┌──────┬──────┬──────┬──────┬─────────┬──────────┐
@@ -159,14 +159,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┐   ┌─────┼──────┼──────┼──────┼──────┼─────────┼──────────┤
 //    │   esc   │ LT(Button, DE_Z) │     LALT_T(x)     │     c     │       v        │      b       │      mute      │   │ no  │ home │ pgdn │ pgup │ end  │   ins   │   esc    │
 //    └─────────┴──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┤   ├─────┼──────┼──────┼──────┼──────┼─────────┴──────────┘
-//                                 │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ spc │ bspc │ del  │ ralt │ rgui │
-//                                 └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └─────┴──────┴──────┴──────┴──────┘
+//                                 │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ spc │ bspc │ del  │ ralt │ rgui │                     
+//                                 └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └─────┴──────┴──────┴──────┴──────┘                     
 [Nav] = LAYOUT(
   KC_ESC  , KC_1             , KC_2              , KC_3         , KC_4              , KC_5            ,                                   KC_6    , KC_7    , KC_8    , KC_9     , KC_0    , SS_CRYPT,
   KC_ESC  , LGUI_T(KC_Q)     , KC_W              , KC_E         , KC_R              , KC_PSCR         ,                                   DE_Y    , KC_U    , KC_I    , KC_O     , KC_P    , KC_ESC  ,
   SS_CIRC , KC_A             , KC_S              , LCTL_T(KC_D) , LSFT_T(KC_F)      , KC_G            ,                                   KC_LEFT , KC_DOWN , KC_UP   , KC_RIGHT , DE_QUOT , KC_DLR  ,
   KC_ESC  , LT(Button, DE_Z) , LALT_T(KC_X)      , KC_C         , KC_V              , KC_B            , KC_MUTE           ,     XXXXXXX , KC_HOME , KC_PGDN , KC_PGUP , KC_END   , KC_INS  , KC_ESC  ,
-                               TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     KC_SPC  , KC_BSPC , KC_DEL  , KC_RALT , KC_RGUI
+                               TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     KC_SPC  , KC_BSPC , KC_DEL  , KC_RALT , KC_RGUI                      
 ),
 
 //    ┌─────────┬──────────────────┬───────────────────┬───────────┬────────────────┬──────────────┐                           ┌──────┬─────────┬──────┬─────────┬─────────┬──────────┐
@@ -178,14 +178,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┐   ┌──────┼──────┼─────────┼──────┼─────────┼─────────┼──────────┤
 //    │   esc   │ LT(Button, DE_Z) │     LALT_T(x)     │     c     │       v        │      b       │      mute      │   │  no  │ wh_l │  btn1   │ wh_d │  wh_r   │   ins   │   esc    │
 //    └─────────┴──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┤   ├──────┼──────┼─────────┼──────┼─────────┼─────────┴──────────┘
-//                                 │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ btn2 │ btn1 │  btn3   │ ralt │  rgui   │
-//                                 └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────┴──────┴─────────┴──────┴─────────┘
+//                                 │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ btn2 │ btn1 │  btn3   │ ralt │  rgui   │                     
+//                                 └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────┴──────┴─────────┴──────┴─────────┘                     
 [Mouse] = LAYOUT(
   KC_ESC  , KC_1             , KC_2              , KC_3         , KC_4              , KC_5            ,                                   KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , SS_CRYPT,
   KC_ESC  , LGUI_T(KC_Q)     , KC_W              , KC_E         , KC_R              , KC_T            ,                                   DE_Y    , DE_UDIA , KC_WH_U , DE_ODIA , KC_P    , KC_ESC  ,
   SS_CIRC , DE_ADIA          , DE_SS             , LCTL_T(KC_D) , LSFT_T(KC_F)      , KC_G            ,                                   KC_MS_L , KC_MS_D , KC_MS_U , KC_MS_R , DE_QUOT , KC_DLR  ,
   KC_ESC  , LT(Button, DE_Z) , LALT_T(KC_X)      , KC_C         , KC_V              , KC_B            , KC_MUTE           ,     XXXXXXX , KC_WH_L , KC_BTN1 , KC_WH_D , KC_WH_R , KC_INS  , KC_ESC  ,
-                               TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     KC_BTN2 , KC_BTN1 , KC_BTN3 , KC_RALT , KC_RGUI
+                               TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     KC_BTN2 , KC_BTN1 , KC_BTN3 , KC_RALT , KC_RGUI                     
 ),
 
 //    ┌─────────┬──────────────────┬───────────────────┬───────────┬────────────────┬──────────────┐                           ┌─────────┬─────────┬─────────┬─────────┬─────────┬──────────┐
@@ -197,14 +197,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┐   ┌──────┼─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
 //    │   esc   │ LT(Button, DE_Z) │     LALT_T(x)     │     c     │       v        │      b       │      mute      │   │  no  │  wh_l   │  wh_d   │  wh_u   │  wh_r   │   ins   │   esc    │
 //    └─────────┴──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┤   ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┴──────────┘
-//                                 │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ mstp │  mply   │  mute   │  ralt   │  rgui   │
-//                                 └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────┴─────────┴─────────┴─────────┴─────────┘
+//                                 │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ mstp │  mply   │  mute   │  ralt   │  rgui   │                     
+//                                 └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────┴─────────┴─────────┴─────────┴─────────┘                     
 [Media] = LAYOUT(
   KC_ESC  , KC_1             , KC_2              , KC_3         , KC_4              , KC_5            ,                                   KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , SS_CRYPT,
   KC_ESC  , LGUI_T(KC_Q)     , KC_W              , KC_E         , KC_R              , KC_T            ,                                   RGB_MOD , RGB_HUI , RGB_SAI , RGB_VAI , RGB_TOG , KC_ESC  ,
   SS_CIRC , DE_ADIA          , DE_SS             , LCTL_T(KC_D) , LSFT_T(KC_F)      , KC_G            ,                                   KC_MPRV , KC_VOLD , KC_VOLU , KC_MNXT , KC_ESC  , KC_ESC  ,
   KC_ESC  , LT(Button, DE_Z) , LALT_T(KC_X)      , KC_C         , KC_V              , KC_B            , KC_MUTE           ,     XXXXXXX , KC_WH_L , KC_WH_D , KC_WH_U , KC_WH_R , KC_INS  , KC_ESC  ,
-                               TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI
+                               TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI                     
 ),
 
 //    ┌─────────┬─────────┬───────────────────┬──────┬────────┬─────────┐                   ┌─────────┬─────────┬─────────┬─────────┬─────────┬──────────┐
@@ -216,14 +216,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────────┼─────────┼───────────────────┼──────┼────────┼─────────┼─────────┐   ┌─────┼─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
 //    │   esc   │ DE_GRV  │         1         │  2   │   3    │ DE_BSLS │  mute   │   │ no  │  wh_l   │ DM_PLY1 │ DM_PLY2 │  wh_r   │   ins   │   esc    │
 //    └─────────┴─────────┼───────────────────┼──────┼────────┼─────────┼─────────┤   ├─────┼─────────┼─────────┼─────────┼─────────┼─────────┴──────────┘
-//                        │ TD(TD_LOCK_LAYER) │ lalt │ DE_DOT │    0    │ DE_MINS │   │ spc │  bspc   │   del   │   ent   │  rgui   │
-//                        └───────────────────┴──────┴────────┴─────────┴─────────┘   └─────┴─────────┴─────────┴─────────┴─────────┘
+//                        │ TD(TD_LOCK_LAYER) │ lalt │ DE_DOT │    0    │ DE_MINS │   │ spc │  bspc   │   del   │   ent   │  rgui   │                     
+//                        └───────────────────┴──────┴────────┴─────────┴─────────┘   └─────┴─────────┴─────────┴─────────┴─────────┘                     
 [Num] = LAYOUT(
   KC_ESC  , KC_1    , KC_2              , KC_3    , KC_4   , KC_5    ,                         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , SS_CRYPT,
   KC_ESC  , DE_LBRC , KC_7              , KC_8    , KC_9   , DE_RBRC ,                         RGB_MOD , RGB_HUI , RGB_SAI , RGB_VAI , RGB_TOG , KC_ESC  ,
   SS_CIRC , DE_SCLN , KC_4              , KC_5    , KC_6   , DE_EQL  ,                         DM_RSTP , DM_REC1 , DM_REC2 , KC_MNXT , KC_ESC  , KC_ESC  ,
   KC_ESC  , DE_GRV  , KC_1              , KC_2    , KC_3   , DE_BSLS , KC_MUTE ,     XXXXXXX , KC_WH_L , DM_PLY1 , DM_PLY2 , KC_WH_R , KC_INS  , KC_ESC  ,
-                      TD(TD_LOCK_LAYER) , KC_LALT , DE_DOT , KC_0    , DE_MINS ,     KC_SPC  , KC_BSPC , KC_DEL  , KC_ENT  , KC_RGUI
+                      TD(TD_LOCK_LAYER) , KC_LALT , DE_DOT , KC_0    , DE_MINS ,     KC_SPC  , KC_BSPC , KC_DEL  , KC_ENT  , KC_RGUI                     
 ),
 
 //    ┌─────────┬─────────┬───────────────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┬──────────┐
@@ -235,14 +235,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────────┼─────────┼───────────────────┼─────────┼─────────┼─────────┼─────────┐   ┌──────┼─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
 //    │   esc   │ DE_TILD │      DE_EXLM      │  DE_AT  │ DE_HASH │ DE_PIPE │  mute   │   │  no  │  wh_l   │  wh_d   │  wh_u   │  wh_r   │   ins   │   esc    │
 //    └─────────┴─────────┼───────────────────┼─────────┼─────────┼─────────┼─────────┤   ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┴──────────┘
-//                        │ TD(TD_LOCK_LAYER) │  lalt   │ DE_LPRN │ DE_RPRN │ DE_UNDS │   │ mstp │  mply   │  mute   │  ralt   │  rgui   │
-//                        └───────────────────┴─────────┴─────────┴─────────┴─────────┘   └──────┴─────────┴─────────┴─────────┴─────────┘
+//                        │ TD(TD_LOCK_LAYER) │  lalt   │ DE_LPRN │ DE_RPRN │ DE_UNDS │   │ mstp │  mply   │  mute   │  ralt   │  rgui   │                     
+//                        └───────────────────┴─────────┴─────────┴─────────┴─────────┘   └──────┴─────────┴─────────┴─────────┴─────────┘                     
 [Sym] = LAYOUT(
   KC_ESC  , KC_1    , KC_2              , KC_3    , KC_4    , KC_5    ,                         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , SS_CRYPT,
   SS_CIRC , DE_LCBR , DE_AMPR           , DE_ASTR , DE_LPRN , DE_RCBR ,                         RGB_MOD , RGB_HUI , RGB_SAI , RGB_VAI , RGB_TOG , KC_ESC  ,
   KC_ESC  , DE_COLN , DE_DLR            , DE_PERC , DE_CIRC , DE_PLUS ,                         KC_MPRV , KC_VOLD , KC_VOLU , KC_MNXT , KC_ESC  , KC_ESC  ,
   KC_ESC  , DE_TILD , DE_EXLM           , DE_AT   , DE_HASH , DE_PIPE , KC_MUTE ,     XXXXXXX , KC_WH_L , KC_WH_D , KC_WH_U , KC_WH_R , KC_INS  , KC_ESC  ,
-                      TD(TD_LOCK_LAYER) , KC_LALT , DE_LPRN , DE_RPRN , DE_UNDS ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI
+                      TD(TD_LOCK_LAYER) , KC_LALT , DE_LPRN , DE_RPRN , DE_UNDS ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI                     
 ),
 
 //    ┌─────────┬─────┬───────────────────┬──────┬─────┬─────────────┐                 ┌─────────┬─────────┬─────────┬─────────┬─────────┬──────────┐
@@ -254,33 +254,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├─────────┼─────┼───────────────────┼──────┼─────┼─────────────┼──────┐   ┌──────┼─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
 //    │   esc   │ f10 │        f1         │  f2  │ f3  │    paus     │ mute │   │  no  │  wh_l   │  wh_d   │  wh_u   │  wh_r   │   ins   │   esc    │
 //    └─────────┴─────┼───────────────────┼──────┼─────┼─────────────┼──────┤   ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┴──────────┘
-//                    │ TD(TD_LOCK_LAYER) │ lalt │ app │     spc     │ tab  │   │ mstp │  mply   │  mute   │  ralt   │  rgui   │
-//                    └───────────────────┴──────┴─────┴─────────────┴──────┘   └──────┴─────────┴─────────┴─────────┴─────────┘
+//                    │ TD(TD_LOCK_LAYER) │ lalt │ app │     spc     │ tab  │   │ mstp │  mply   │  mute   │  ralt   │  rgui   │                     
+//                    └───────────────────┴──────┴─────┴─────────────┴──────┘   └──────┴─────────┴─────────┴─────────┴─────────┘                     
 [Fun] = LAYOUT(
   KC_ESC  , KC_1   , KC_2              , KC_3    , KC_4   , KC_5           ,                         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , SS_CRYPT,
   KC_ESC  , KC_F12 , KC_F7             , KC_F8   , KC_F9  , KC_PSCR        ,                         RGB_MOD , RGB_HUI , RGB_SAI , RGB_VAI , RGB_TOG , KC_ESC  ,
   SS_CIRC , KC_F11 , KC_F4             , KC_F5   , KC_F6  , KC_SCROLL_LOCK ,                         KC_MPRV , KC_VOLD , KC_VOLU , KC_MNXT , KC_ESC  , KC_ESC  ,
   KC_ESC  , KC_F10 , KC_F1             , KC_F2   , KC_F3  , KC_PAUS        , KC_MUTE ,     XXXXXXX , KC_WH_L , KC_WH_D , KC_WH_U , KC_WH_R , KC_INS  , KC_ESC  ,
-                     TD(TD_LOCK_LAYER) , KC_LALT , KC_APP , KC_SPC         , KC_TAB  ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI
+                     TD(TD_LOCK_LAYER) , KC_LALT , KC_APP , KC_SPC         , KC_TAB  ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI                     
 ),
 
-//    ┌─────────┬─────────┬───────────────────┬──────┬──────┬─────────────┐                 ┌─────────┬─────────┬─────────┬─────────┬─────────┬──────────┐
-//    │   esc   │    1    │         2         │  3   │  4   │      5      │                 │    6    │    7    │    8    │    9    │    0    │ SS_CRYPT │
-//    ├─────────┼─────────┼───────────────────┼──────┼──────┼─────────────┤                 ├─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
-//    │   esc   │ C(DE_Z) │       C(x)        │ C(c) │ C(v) │   C(DE_Y)   │                 │ RGB_MOD │ RGB_HUI │ RGB_SAI │ RGB_VAI │ RGB_TOG │   esc    │
-//    ├─────────┼─────────┼───────────────────┼──────┼──────┼─────────────┤                 ├─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
-//    │ SS_CIRC │   f11   │        f4         │  f5  │  f6  │ sCROLL_LOCK │                 │  mprv   │  vold   │  volu   │  mnxt   │   esc   │   esc    │
-//    ├─────────┼─────────┼───────────────────┼──────┼──────┼─────────────┼──────┐   ┌──────┼─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
-//    │   esc   │   f10   │        f1         │  f2  │  f3  │    paus     │ mute │   │  no  │  wh_l   │  wh_d   │  wh_u   │  wh_r   │   ins   │   esc    │
-//    └─────────┴─────────┼───────────────────┼──────┼──────┼─────────────┼──────┤   ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┴──────────┘
-//                        │ TD(TD_LOCK_LAYER) │ lalt │ app  │     spc     │ tab  │   │ mstp │  mply   │  mute   │  ralt   │  rgui   │
-//                        └───────────────────┴──────┴──────┴─────────────┴──────┘   └──────┴─────────┴─────────┴─────────┴─────────┘
+//    ┌─────────┬─────────┬───────────────────┬──────┬──────┬─────────┐                 ┌─────────┬─────────┬─────────┬─────────┬─────────┬──────────┐
+//    │   esc   │    1    │         2         │  3   │  4   │    5    │                 │    6    │    7    │    8    │    9    │    0    │ SS_CRYPT │
+//    ├─────────┼─────────┼───────────────────┼──────┼──────┼─────────┤                 ├─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
+//    │   esc   │   f12   │        f7         │  f8  │  f9  │  pscr   │                 │ RGB_MOD │ RGB_HUI │ RGB_SAI │ RGB_VAI │ RGB_TOG │   esc    │
+//    ├─────────┼─────────┼───────────────────┼──────┼──────┼─────────┤                 ├─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
+//    │ SS_CIRC │ C(DE_Z) │       C(x)        │ C(c) │ C(v) │ C(DE_Y) │                 │  mprv   │  vold   │  volu   │  mnxt   │   esc   │   esc    │
+//    ├─────────┼─────────┼───────────────────┼──────┼──────┼─────────┼──────┐   ┌──────┼─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
+//    │   esc   │   f10   │        f1         │  f2  │  f3  │  paus   │ mute │   │  no  │  wh_l   │  wh_d   │  wh_u   │  wh_r   │   ins   │   esc    │
+//    └─────────┴─────────┼───────────────────┼──────┼──────┼─────────┼──────┤   ├──────┼─────────┼─────────┼─────────┼─────────┼─────────┴──────────┘
+//                        │ TD(TD_LOCK_LAYER) │ lalt │ app  │   spc   │ tab  │   │ mstp │  mply   │  mute   │  ralt   │  rgui   │                     
+//                        └───────────────────┴──────┴──────┴─────────┴──────┘   └──────┴─────────┴─────────┴─────────┴─────────┘                     
 [Button] = LAYOUT(
-  KC_ESC  , KC_1    , KC_2              , KC_3    , KC_4    , KC_5           ,                         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , SS_CRYPT,
-  KC_ESC  , C(DE_Z) , C(KC_X)           , C(KC_C) , C(KC_V) , C(DE_Y)        ,                         RGB_MOD , RGB_HUI , RGB_SAI , RGB_VAI , RGB_TOG , KC_ESC  ,
-  SS_CIRC , KC_F11  , KC_F4             , KC_F5   , KC_F6   , KC_SCROLL_LOCK ,                         KC_MPRV , KC_VOLD , KC_VOLU , KC_MNXT , KC_ESC  , KC_ESC  ,
-  KC_ESC  , KC_F10  , KC_F1             , KC_F2   , KC_F3   , KC_PAUS        , KC_MUTE ,     XXXXXXX , KC_WH_L , KC_WH_D , KC_WH_U , KC_WH_R , KC_INS  , KC_ESC  ,
-                      TD(TD_LOCK_LAYER) , KC_LALT , KC_APP  , KC_SPC         , KC_TAB  ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI
+  KC_ESC  , KC_1    , KC_2              , KC_3    , KC_4    , KC_5    ,                         KC_6    , KC_7    , KC_8    , KC_9    , KC_0    , SS_CRYPT,
+  KC_ESC  , KC_F12  , KC_F7             , KC_F8   , KC_F9   , KC_PSCR ,                         RGB_MOD , RGB_HUI , RGB_SAI , RGB_VAI , RGB_TOG , KC_ESC  ,
+  SS_CIRC , C(DE_Z) , C(KC_X)           , C(KC_C) , C(KC_V) , C(DE_Y) ,                         KC_MPRV , KC_VOLD , KC_VOLU , KC_MNXT , KC_ESC  , KC_ESC  ,
+  KC_ESC  , KC_F10  , KC_F1             , KC_F2   , KC_F3   , KC_PAUS , KC_MUTE ,     XXXXXXX , KC_WH_L , KC_WH_D , KC_WH_U , KC_WH_R , KC_INS  , KC_ESC  ,
+                      TD(TD_LOCK_LAYER) , KC_LALT , KC_APP  , KC_SPC  , KC_TAB  ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI                     
 ),
 
 //    ┌──────┬──────┬───────────────────┬──────┬──────┬─────┐                             ┌───────┬──────────┬─────────┬──────────────┬─────────┬──────┐
@@ -292,14 +292,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //    ├──────┼──────┼───────────────────┼──────┼──────┼─────┼───────────────────┐   ┌─────┼───────┼──────────┼─────────┼──────────────┼─────────┼──────┤
 //    │ lsft │ DE_Z │         x         │  c   │  v   │  b  │       mute        │   │ no  │   n   │    m     │    ,    │      .       │    /    │ rsft │
 //    └──────┴──────┼───────────────────┼──────┼──────┼─────┼───────────────────┤   ├─────┼───────┼──────────┼─────────┼──────────────┼─────────┴──────┘
-//                  │ TD(TD_LOCK_LAYER) │ lalt │ lctl │     │ MT(MOD_LSFT, ent) │   │ spc │ rAISE │   rctl   │  ralt   │     rgui     │
-//                  └───────────────────┴──────┴──────┴─────┴───────────────────┘   └─────┴───────┴──────────┴─────────┴──────────────┘
+//                  │ TD(TD_LOCK_LAYER) │ lalt │ lctl │     │ MT(MOD_LSFT, ent) │   │ spc │ rAISE │   rctl   │  ralt   │     rgui     │                 
+//                  └───────────────────┴──────┴──────┴─────┴───────────────────┘   └─────┴───────┴──────────┴─────────┴──────────────┘                 
 [Emoji] = LAYOUT(
   KC_GRV  , KC_1 , KC_2              , KC_3    , KC_4    , KC_5    ,                                      KC_6     , KC_7     , KC_8    , KC_9         , KC_0    , KC_GRV ,
   KC_ESC  , KC_Q , KC_W              , KC_E    , KC_R    , KC_T    ,                                      DE_Y     , KC_U     , KC_I    , KC_O         , KC_P    , KC_BSPC,
   KC_TAB  , KC_A , KC_S              , KC_D    , KC_F    , KC_G    ,                                      KC_H     , X(SWEAT) , X(GRIN) , X(THUMBS_UP) , X(ROFL) , KC_QUOT,
   KC_LSFT , DE_Z , KC_X              , KC_C    , KC_V    , KC_B    , KC_MUTE              ,     XXXXXXX , KC_N     , KC_M     , KC_COMM , KC_DOT       , KC_SLSH , KC_RSFT,
-                   TD(TD_LOCK_LAYER) , KC_LALT , KC_LCTL , _______ , MT(MOD_LSFT, KC_ENT) ,     KC_SPC  , KC_RAISE , KC_RCTL  , KC_RALT , KC_RGUI
+                   TD(TD_LOCK_LAYER) , KC_LALT , KC_LCTL , _______ , MT(MOD_LSFT, KC_ENT) ,     KC_SPC  , KC_RAISE , KC_RCTL  , KC_RALT , KC_RGUI                         
 )
 };
 
