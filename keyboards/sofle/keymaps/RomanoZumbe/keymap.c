@@ -5,13 +5,16 @@
 enum sofle_layers {
     /* _M_XYZ = Mac Os, _W_XYZ = Win/Linux */
     Qwerty,
+    Qwerty_rev,
     Nav,
     Mouse,
     Button,
     Fun,
     Sym,
+    Sym_rev,
     Media,
     Num,
+    Num_rev,
     Emoji
 };
 
@@ -98,25 +101,24 @@ const uint32_t PROGMEM unicode_map[] = {
     [FOLDED_HANDS] = 0x1F64F,
     [BICEPS]       = 0x1F4AA};
 
-enum {
-    TD_LOWER_EMOJI,
-    TD_LOCK_LAYER,
-};
+enum { TD_LOWER_EMOJI, TD_LOCK_LAYER, TD_SWITCH_LAYER };
+
+int rev = 0;
 
 void lock_layer(tap_dance_state_t *state, void *user_data) {
     switch (state->count) {
         case 2:
-            if (IS_LAYER_ON(Num)) {
+            if (IS_LAYER_ON(rev == 0 ? Num : Num_rev)) {
                 layer_clear();
             } else {
-                layer_move(Num);
+                layer_move(rev == 0 ? Num : Num_rev);
             }
             break;
         case 3:
-            if (IS_LAYER_ON(Sym)) {
+            if (IS_LAYER_ON(rev == 0 ? Sym : Sym_rev)) {
                 layer_clear();
             } else {
-                layer_move(Sym);
+                layer_move(rev == 0 ? Sym : Sym_rev);
             }
             break;
         case 5:
@@ -125,29 +127,68 @@ void lock_layer(tap_dance_state_t *state, void *user_data) {
     }
 }
 
+void switch_layer(tap_dance_state_t *state, void *user_data) {
+    switch (state->count) {
+        case 2:
+            if (rev == 0) {
+                rev = 1;
+                set_single_persistent_default_layer(Qwerty_rev);
+            } else {
+                rev = 0;
+                set_single_persistent_default_layer(Qwerty);
+            }
+            // if (IS_LAYER_ON(Qwerty_rev)) {
+            //     layer_clear();
+            // } else {
+            //     layer_move(Qwerty_rev);
+            // }
+            break;
+    }
+}
+
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_LOCK_LAYER] = ACTION_TAP_DANCE_FN(lock_layer),
+    [TD_LOCK_LAYER]   = ACTION_TAP_DANCE_FN(lock_layer),
+    [TD_SWITCH_LAYER] = ACTION_TAP_DANCE_FN(switch_layer),
 };
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-//    ┌────────────────┬──────────────────┬───────────────────┬───────────┬────────────────┬──────────────┐                                   ┌───────────────┬──────────────┬───────────┬───────────┬─────────┬──────────┐
-//    │      esc       │        1         │         2         │     3     │       4        │      5       │                                   │       6       │      7       │     8     │     9     │    0    │ SS_CRYPT │
-//    ├────────────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┤                                   ├───────────────┼──────────────┼───────────┼───────────┼─────────┼──────────┤
-//    │ LT(Emoji, esc) │        q         │         w         │     e     │       r        │      t       │                                   │     DE_Y      │      u       │     i     │ ALGR_T(o) │    p    │   lgui   │
-//    ├────────────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┤                                   ├───────────────┼──────────────┼───────────┼───────────┼─────────┼──────────┤
-//    │      lgui      │        a         │         s         │ LCTL_T(d) │   LSFT_T(f)    │  LALT_T(g)   │                                   │       h       │  LSFT_T(j)   │ LCTL_T(k) │     l     │ DE_QUOT │   lalt   │
-//    ├────────────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┐   ┌──────────────┼───────────────┼──────────────┼───────────┼───────────┼─────────┼──────────┤
-//    │    SS_CIRC     │ LT(Button, DE_Z) │         x         │     c     │       v        │      b       │      mute      │   │      no      │       n       │      m       │  DE_COMM  │  DE_DOT   │ DE_SLSH │    $     │
-//    └────────────────┴──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┤   ├──────────────┼───────────────┼──────────────┼───────────┼───────────┼─────────┴──────────┘
-//                                        │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ LT(Sym, spc) │ LT(Num, bspc) │ LT(Fun, del) │   ralt    │   rgui    │                     
-//                                        └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────────────┴───────────────┴──────────────┴───────────┴───────────┘                     
+//    ┌────────────────┬──────────────────┬───────────────────┬───────────┬────────────────┬──────────────┐                                   ┌───────────────┬──────────────┬─────────────────────┬───────────┬─────────┬──────────┐
+//    │      esc       │        1         │         2         │     3     │       4        │      5       │                                   │       6       │      7       │          8          │     9     │    0    │ SS_CRYPT │
+//    ├────────────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┤                                   ├───────────────┼──────────────┼─────────────────────┼───────────┼─────────┼──────────┤
+//    │ LT(Emoji, esc) │        q         │         w         │     e     │       r        │      t       │                                   │     DE_Y      │      u       │          i          │ ALGR_T(o) │    p    │   lgui   │
+//    ├────────────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┤                                   ├───────────────┼──────────────┼─────────────────────┼───────────┼─────────┼──────────┤
+//    │      lgui      │        a         │         s         │ LCTL_T(d) │   LSFT_T(f)    │  LALT_T(g)   │                                   │       h       │  LSFT_T(j)   │      LCTL_T(k)      │     l     │ DE_QUOT │   lalt   │
+//    ├────────────────┼──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┐   ┌──────────────┼───────────────┼──────────────┼─────────────────────┼───────────┼─────────┼──────────┤
+//    │    SS_CIRC     │ LT(Button, DE_Z) │         x         │     c     │       v        │      b       │      mute      │   │      no      │       n       │      m       │       DE_COMM       │  DE_DOT   │ DE_SLSH │    $     │
+//    └────────────────┴──────────────────┼───────────────────┼───────────┼────────────────┼──────────────┼────────────────┤   ├──────────────┼───────────────┼──────────────┼─────────────────────┼───────────┼─────────┴──────────┘
+//                                        │ TD(TD_LOCK_LAYER) │   lalt    │ LT(Media, esc) │ LT(Nav, ent) │ LT(Mouse, tab) │   │ LT(Sym, spc) │ LT(Num, bspc) │ LT(Fun, del) │ TD(TD_SWITCH_LAYER) │   rgui    │                     
+//                                        └───────────────────┴───────────┴────────────────┴──────────────┴────────────────┘   └──────────────┴───────────────┴──────────────┴─────────────────────┴───────────┘                     
 [Qwerty] = LAYOUT(
-  KC_ESC            , KC_1             , KC_2              , KC_3         , KC_4              , KC_5            ,                                           KC_6             , KC_7            , KC_8         , KC_9         , KC_0    , SS_CRYPT,
-  LT(Emoji, KC_ESC) , KC_Q             , KC_W              , KC_E         , KC_R              , KC_T            ,                                           DE_Y             , KC_U            , KC_I         , ALGR_T(KC_O) , KC_P    , KC_LGUI ,
-  KC_LGUI           , KC_A             , KC_S              , LCTL_T(KC_D) , LSFT_T(KC_F)      , LALT_T(KC_G)    ,                                           KC_H             , LSFT_T(KC_J)    , LCTL_T(KC_K) , KC_L         , DE_QUOT , KC_LALT ,
-  SS_CIRC           , LT(Button, DE_Z) , KC_X              , KC_C         , KC_V              , KC_B            , KC_MUTE           ,     XXXXXXX         , KC_N             , KC_M            , DE_COMM      , DE_DOT       , DE_SLSH , KC_DLR  ,
-                                         TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     LT(Sym, KC_SPC) , LT(Num, KC_BSPC) , LT(Fun, KC_DEL) , KC_RALT      , KC_RGUI                          
+  KC_ESC            , KC_1             , KC_2              , KC_3         , KC_4              , KC_5            ,                                           KC_6             , KC_7            , KC_8                , KC_9         , KC_0    , SS_CRYPT,
+  LT(Emoji, KC_ESC) , KC_Q             , KC_W              , KC_E         , KC_R              , KC_T            ,                                           DE_Y             , KC_U            , KC_I                , ALGR_T(KC_O) , KC_P    , KC_LGUI ,
+  KC_LGUI           , KC_A             , KC_S              , LCTL_T(KC_D) , LSFT_T(KC_F)      , LALT_T(KC_G)    ,                                           KC_H             , LSFT_T(KC_J)    , LCTL_T(KC_K)        , KC_L         , DE_QUOT , KC_LALT ,
+  SS_CIRC           , LT(Button, DE_Z) , KC_X              , KC_C         , KC_V              , KC_B            , KC_MUTE           ,     XXXXXXX         , KC_N             , KC_M            , DE_COMM             , DE_DOT       , DE_SLSH , KC_DLR  ,
+                                         TD(TD_LOCK_LAYER) , KC_LALT      , LT(Media, KC_ESC) , LT(Nav, KC_ENT) , LT(Mouse, KC_TAB) ,     LT(Sym, KC_SPC) , LT(Num, KC_BSPC) , LT(Fun, KC_DEL) , TD(TD_SWITCH_LAYER) , KC_RGUI                          
+),
+
+//    ┌──────────┬─────────┬───────────┬───────────┬──────────────┬───────────────────┐                                       ┌──────────────┬────────────────┬─────────────────────┬───────────────────┬──────────────────┬────────────────┐
+//    │ SS_CRYPT │    0    │     9     │     8     │      7       │         6         │                                       │      5       │       4        │          3          │         2         │        1         │      esc       │
+//    ├──────────┼─────────┼───────────┼───────────┼──────────────┼───────────────────┤                                       ├──────────────┼────────────────┼─────────────────────┼───────────────────┼──────────────────┼────────────────┤
+//    │   lgui   │    p    │ ALGR_T(o) │     i     │      u       │       DE_Y        │                                       │      t       │       r        │          e          │         w         │        q         │ LT(Emoji, esc) │
+//    ├──────────┼─────────┼───────────┼───────────┼──────────────┼───────────────────┤                                       ├──────────────┼────────────────┼─────────────────────┼───────────────────┼──────────────────┼────────────────┤
+//    │   lalt   │ DE_QUOT │     l     │ LCTL_T(k) │  LSFT_T(j)   │         h         │                                       │  LALT_T(g)   │   LSFT_T(f)    │      LCTL_T(d)      │         s         │        a         │      lgui      │
+//    ├──────────┼─────────┼───────────┼───────────┼──────────────┼───────────────────┼──────────────────┐   ┌────────────────┼──────────────┼────────────────┼─────────────────────┼───────────────────┼──────────────────┼────────────────┤
+//    │    $     │ DE_SLSH │  DE_DOT   │  DE_COMM  │      m       │         n         │        no        │   │      mute      │      b       │       v        │          c          │         x         │ LT(Button, DE_Z) │    SS_CIRC     │
+//    └──────────┴─────────┼───────────┼───────────┼──────────────┼───────────────────┼──────────────────┤   ├────────────────┼──────────────┼────────────────┼─────────────────────┼───────────────────┼──────────────────┴────────────────┘
+//                         │   rgui    │   ralt    │ LT(Fun, del) │ LT(Num_rev, bspc) │ LT(Sym_rev, spc) │   │ LT(Mouse, tab) │ LT(Nav, ent) │ LT(Media, esc) │ TD(TD_SWITCH_LAYER) │ TD(TD_LOCK_LAYER) │                                    
+//                         └───────────┴───────────┴──────────────┴───────────────────┴──────────────────┘   └────────────────┴──────────────┴────────────────┴─────────────────────┴───────────────────┘                                    
+[Qwerty_rev] = LAYOUT(
+  SS_CRYPT , KC_0    , KC_9         , KC_8         , KC_7            , KC_6                 ,                                               KC_5            , KC_4              , KC_3                , KC_2              , KC_1             , KC_ESC           ,
+  KC_LGUI  , KC_P    , ALGR_T(KC_O) , KC_I         , KC_U            , DE_Y                 ,                                               KC_T            , KC_R              , KC_E                , KC_W              , KC_Q             , LT(Emoji, KC_ESC),
+  KC_LALT  , DE_QUOT , KC_L         , LCTL_T(KC_K) , LSFT_T(KC_J)    , KC_H                 ,                                               LALT_T(KC_G)    , LSFT_T(KC_F)      , LCTL_T(KC_D)        , KC_S              , KC_A             , KC_LGUI          ,
+  KC_DLR   , DE_SLSH , DE_DOT       , DE_COMM      , KC_M            , KC_N                 , XXXXXXX             ,     KC_MUTE           , KC_B            , KC_V              , KC_C                , KC_X              , LT(Button, DE_Z) , SS_CIRC          ,
+                       KC_RGUI      , KC_RALT      , LT(Fun, KC_DEL) , LT(Num_rev, KC_BSPC) , LT(Sym_rev, KC_SPC) ,     LT(Mouse, KC_TAB) , LT(Nav, KC_ENT) , LT(Media, KC_ESC) , TD(TD_SWITCH_LAYER) , TD(TD_LOCK_LAYER)                                       
 ),
 
 //    ┌─────────┬──────────────────┬───────────────────┬───────────┬────────────────┬──────────────┐                          ┌──────┬──────┬──────┬──────┬─────────┬──────────┐
@@ -226,6 +267,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       TD(TD_LOCK_LAYER) , KC_LALT , DE_DOT , KC_0    , DE_MINS ,     KC_SPC  , KC_BSPC , KC_DEL  , KC_ENT  , KC_RGUI                     
 ),
 
+//    ┌──────────┬─────────┬─────────┬─────────┬─────────┬─────────┐                   ┌─────────┬────────┬──────┬───────────────────┬─────────┬─────────┐
+//    │ SS_CRYPT │    0    │    9    │    8    │    7    │    6    │                   │    5    │   4    │  3   │         2         │    1    │   esc   │
+//    ├──────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                   ├─────────┼────────┼──────┼───────────────────┼─────────┼─────────┤
+//    │   esc    │ RGB_TOG │ RGB_VAI │ RGB_SAI │ RGB_HUI │ RGB_MOD │                   │ DE_RBRC │   9    │  8   │         7         │ DE_LBRC │   esc   │
+//    ├──────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                   ├─────────┼────────┼──────┼───────────────────┼─────────┼─────────┤
+//    │   esc    │   esc   │  mnxt   │ DM_REC2 │ DM_REC1 │ DM_RSTP │                   │ DE_EQL  │   6    │  5   │         4         │ DE_SCLN │ SS_CIRC │
+//    ├──────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────┐   ┌─────────┼─────────┼────────┼──────┼───────────────────┼─────────┼─────────┤
+//    │   esc    │   ins   │  wh_r   │ DM_PLY2 │ DM_PLY1 │  wh_l   │ no  │   │  mute   │ DE_BSLS │   3    │  2   │         1         │ DE_GRV  │   esc   │
+//    └──────────┴─────────┼─────────┼─────────┼─────────┼─────────┼─────┤   ├─────────┼─────────┼────────┼──────┼───────────────────┼─────────┴─────────┘
+//                         │  rgui   │   ent   │   del   │  bspc   │ spc │   │ DE_MINS │    0    │ DE_DOT │ lalt │ TD(TD_LOCK_LAYER) │                    
+//                         └─────────┴─────────┴─────────┴─────────┴─────┘   └─────────┴─────────┴────────┴──────┴───────────────────┘                    
+[Num_rev] = LAYOUT(
+  SS_CRYPT , KC_0    , KC_9    , KC_8    , KC_7    , KC_6    ,                         KC_5    , KC_4   , KC_3    , KC_2              , KC_1    , KC_ESC ,
+  KC_ESC   , RGB_TOG , RGB_VAI , RGB_SAI , RGB_HUI , RGB_MOD ,                         DE_RBRC , KC_9   , KC_8    , KC_7              , DE_LBRC , KC_ESC ,
+  KC_ESC   , KC_ESC  , KC_MNXT , DM_REC2 , DM_REC1 , DM_RSTP ,                         DE_EQL  , KC_6   , KC_5    , KC_4              , DE_SCLN , SS_CIRC,
+  KC_ESC   , KC_INS  , KC_WH_R , DM_PLY2 , DM_PLY1 , KC_WH_L , XXXXXXX ,     KC_MUTE , DE_BSLS , KC_3   , KC_2    , KC_1              , DE_GRV  , KC_ESC ,
+                       KC_RGUI , KC_ENT  , KC_DEL  , KC_BSPC , KC_SPC  ,     DE_MINS , KC_0    , DE_DOT , KC_LALT , TD(TD_LOCK_LAYER)                    
+),
+
 //    ┌─────────┬─────────┬───────────────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬─────────┬─────────┬──────────┐
 //    │   esc   │    1    │         2         │    3    │    4    │    5    │                    │    6    │    7    │    8    │    9    │    0    │ SS_CRYPT │
 //    ├─────────┼─────────┼───────────────────┼─────────┼─────────┼─────────┤                    ├─────────┼─────────┼─────────┼─────────┼─────────┼──────────┤
@@ -243,6 +303,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_ESC  , DE_COLN , DE_DLR            , DE_PERC , DE_CIRC , DE_PLUS ,                         KC_MPRV , KC_VOLD , KC_VOLU , KC_MNXT , KC_ESC  , KC_ESC  ,
   KC_ESC  , DE_TILD , DE_EXLM           , DE_AT   , DE_HASH , DE_PIPE , KC_MUTE ,     XXXXXXX , KC_WH_L , KC_WH_D , KC_WH_U , KC_WH_R , KC_INS  , KC_ESC  ,
                       TD(TD_LOCK_LAYER) , KC_LALT , DE_LPRN , DE_RPRN , DE_UNDS ,     KC_MSTP , KC_MPLY , KC_MUTE , KC_RALT , KC_RGUI                     
+),
+
+//    ┌──────────┬─────────┬─────────┬─────────┬─────────┬─────────┐                    ┌─────────┬─────────┬─────────┬───────────────────┬─────────┬─────────┐
+//    │ SS_CRYPT │    0    │    9    │    8    │    7    │    6    │                    │    5    │    4    │    3    │         2         │    1    │   esc   │
+//    ├──────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                    ├─────────┼─────────┼─────────┼───────────────────┼─────────┼─────────┤
+//    │   esc    │ RGB_TOG │ RGB_VAI │ RGB_SAI │ RGB_HUI │ RGB_MOD │                    │ DE_RCBR │ DE_LPRN │ DE_ASTR │      DE_AMPR      │ DE_LCBR │ SS_CIRC │
+//    ├──────────┼─────────┼─────────┼─────────┼─────────┼─────────┤                    ├─────────┼─────────┼─────────┼───────────────────┼─────────┼─────────┤
+//    │   esc    │   esc   │  mnxt   │  volu   │  vold   │  mprv   │                    │ DE_PLUS │ DE_CIRC │ DE_PERC │      DE_DLR       │ DE_COLN │   esc   │
+//    ├──────────┼─────────┼─────────┼─────────┼─────────┼─────────┼──────┐   ┌─────────┼─────────┼─────────┼─────────┼───────────────────┼─────────┼─────────┤
+//    │   esc    │   ins   │  wh_r   │  wh_u   │  wh_d   │  wh_l   │  no  │   │  mute   │ DE_PIPE │ DE_HASH │  DE_AT  │      DE_EXLM      │ DE_TILD │   esc   │
+//    └──────────┴─────────┼─────────┼─────────┼─────────┼─────────┼──────┤   ├─────────┼─────────┼─────────┼─────────┼───────────────────┼─────────┴─────────┘
+//                         │  rgui   │  ralt   │  mute   │  mply   │ mstp │   │ DE_UNDS │ DE_RPRN │ DE_LPRN │  lalt   │ TD(TD_LOCK_LAYER) │                    
+//                         └─────────┴─────────┴─────────┴─────────┴──────┘   └─────────┴─────────┴─────────┴─────────┴───────────────────┘                    
+[Sym_rev] = LAYOUT(
+  SS_CRYPT , KC_0    , KC_9    , KC_8    , KC_7    , KC_6    ,                         KC_5    , KC_4    , KC_3    , KC_2              , KC_1    , KC_ESC ,
+  KC_ESC   , RGB_TOG , RGB_VAI , RGB_SAI , RGB_HUI , RGB_MOD ,                         DE_RCBR , DE_LPRN , DE_ASTR , DE_AMPR           , DE_LCBR , SS_CIRC,
+  KC_ESC   , KC_ESC  , KC_MNXT , KC_VOLU , KC_VOLD , KC_MPRV ,                         DE_PLUS , DE_CIRC , DE_PERC , DE_DLR            , DE_COLN , KC_ESC ,
+  KC_ESC   , KC_INS  , KC_WH_R , KC_WH_U , KC_WH_D , KC_WH_L , XXXXXXX ,     KC_MUTE , DE_PIPE , DE_HASH , DE_AT   , DE_EXLM           , DE_TILD , KC_ESC ,
+                       KC_RGUI , KC_RALT , KC_MUTE , KC_MPLY , KC_MSTP ,     DE_UNDS , DE_RPRN , DE_LPRN , KC_LALT , TD(TD_LOCK_LAYER)                    
 ),
 
 //    ┌─────────┬─────┬───────────────────┬──────┬─────┬─────────────┐                 ┌─────────┬─────────┬─────────┬─────────┬─────────┬──────────┐
@@ -314,34 +393,34 @@ const key_override_t **key_overrides = (const key_override_t *[]){&slsh_ques_ove
 
 #ifdef OLED_ENABLE
 
-static void render_logo_inq(void) {
-    static const char PROGMEM inq_logo[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf8, 0xf8, 0xf8, 0xf8, 0xe0, 0xc0, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x40, 0x78, 0x78, 0x78, 0x00, 0x7c, 0x7c, 0x7c, 0x00, 0x78, 0x78, 0x78, 0x00, 0x00, 0x80, 0x80, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x80, 0x00, 0x80, 0x80, 0xc0, 0xe0, 0xf8, 0xf8, 0xf8, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                                            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x1f, 0x87, 0xf3, 0xf9, 0x3c, 0x0e, 0x1e, 0x83, 0x83, 0xfd, 0x7d, 0xff, 0x03, 0x05, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x04, 0x09, 0xf3, 0x87, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                                            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0xe1, 0xcf, 0xbf, 0x79, 0x70, 0xf0, 0xc1, 0x81, 0xbd, 0xbe, 0xff, 0xc0, 0xa0, 0xa0, 0x80, 0x80, 0x80, 0x80, 0x40, 0x60, 0xb0, 0xce, 0xe3, 0xf8, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                                            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1f, 0x1f, 0x1f, 0x1f, 0x07, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x1e, 0x1e, 0x1c, 0x00, 0x7e, 0x7e, 0x7e, 0x00, 0x1e, 0x1e, 0x1e, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x03, 0x0f, 0x1f, 0x1f, 0x1f, 0x1f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-    // char line[16][32];
-    // char PROGMEM out[512];
-    // for(int y=0;y<=15;y++)
-    //   {
-    //     for(int z=0;z<=31;z++)
-    //       {
-    //         line[y][z]=qmk_logo[y+(z*16)];
-    //       }
-    //   }
-    //
-    // for(int y=0;y<=15;y++)
-    //   {
-    //     for(int z=0;z<=31;z++)
-    //       {
-    //         out[y+(z*16)] = line[y][z];
-    //       }
-    //   }
-
-    // static const char PROGMEM logo[] = out;
-    // oled_write_P(qmk_logo, false);
-    oled_write_raw_P(inq_logo, sizeof(inq_logo));
-}
+// static void render_logo_inq(void) {
+//     static const char PROGMEM inq_logo[] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xf8, 0xf8, 0xf8, 0xf8, 0xe0, 0xc0, 0x80, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x00, 0x40, 0x78, 0x78, 0x78, 0x00, 0x7c, 0x7c, 0x7c, 0x00, 0x78, 0x78, 0x78, 0x00, 0x00, 0x80, 0x80, 0x00, 0x00, 0x00, 0x80, 0x00, 0x00, 0x80, 0x00, 0x80, 0x80, 0xc0, 0xe0, 0xf8, 0xf8, 0xf8, 0xf8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+//                                             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x1f, 0x87, 0xf3, 0xf9, 0x3c, 0x0e, 0x1e, 0x83, 0x83, 0xfd, 0x7d, 0xff, 0x03, 0x05, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x04, 0x09, 0xf3, 0x87, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+//                                             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0xe1, 0xcf, 0xbf, 0x79, 0x70, 0xf0, 0xc1, 0x81, 0xbd, 0xbe, 0xff, 0xc0, 0xa0, 0xa0, 0x80, 0x80, 0x80, 0x80, 0x40, 0x60, 0xb0, 0xce, 0xe3, 0xf8, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+//                                             0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x1f, 0x1f, 0x1f, 0x1f, 0x07, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x00, 0x00, 0x1e, 0x1e, 0x1c, 0x00, 0x7e, 0x7e, 0x7e, 0x00, 0x1e, 0x1e, 0x1e, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x03, 0x0f, 0x1f, 0x1f, 0x1f, 0x1f, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
+//
+//     // char line[16][32];
+//     // char PROGMEM out[512];
+//     // for(int y=0;y<=15;y++)
+//     //   {
+//     //     for(int z=0;z<=31;z++)
+//     //       {
+//     //         line[y][z]=qmk_logo[y+(z*16)];
+//     //       }
+//     //   }
+//     //
+//     // for(int y=0;y<=15;y++)
+//     //   {
+//     //     for(int z=0;z<=31;z++)
+//     //       {
+//     //         out[y+(z*16)] = line[y][z];
+//     //       }
+//     //   }
+//
+//     // static const char PROGMEM logo[] = out;
+//     // oled_write_P(qmk_logo, false);
+//     oled_write_raw_P(inq_logo, sizeof(inq_logo));
+// }
 
 // static void render_logo_cyb(void) {
 //     static const char PROGMEM cyb_logo[] = {// 'cyb', 128x32px
@@ -415,24 +494,24 @@ static void render_logo_inq(void) {
 //     // }
 // }
 
-oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    // if (is_keyboard_master()) {
-    //     return OLED_ROTATION_270;
-    // }
-    return rotation;
-}
-
-bool oled_task_user(void) {
-    if (is_keyboard_master()) {
-        // print_status_narrow();
-        // render_logo_cyb();
-        render_logo_inq();
-    } else {
-        render_logo_inq();
-        // render_logo_cyb();
-    }
-    return false;
-}
+// oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+//     // if (is_keyboard_master()) {
+//     //     return OLED_ROTATION_270;
+//     // }
+//     return rotation;
+// }
+//
+// bool oled_task_user(void) {
+//     if (is_keyboard_master()) {
+//         // print_status_narrow();
+//         // render_logo_cyb();
+//         render_logo_inq();
+//     } else {
+//         render_logo_inq();
+//         // render_logo_cyb();
+//     }
+//     return false;
+// }
 
 #endif
 
@@ -455,21 +534,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 #ifdef ENCODER_ENABLE
 
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) {
-        if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
-            tap_code(KC_VOLD);
-        }
-    } else if (index == 1) {
-        if (clockwise) {
-            tap_code(KC_PGDN);
-        } else {
-            tap_code(KC_PGUP);
-        }
-    }
-    return true;
-}
+// bool encoder_update_user(uint8_t index, bool clockwise) {
+//     if (index == 0) {
+//         if (clockwise) {
+//             tap_code(KC_VOLU);
+//         } else {
+//             tap_code(KC_VOLD);
+//         }
+//     } else if (index == 1) {
+//         if (clockwise) {
+//             tap_code(KC_PGDN);
+//         } else {
+//             tap_code(KC_PGUP);
+//         }
+//     }
+//     return true;
+// }
 
 #endif
